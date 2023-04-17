@@ -61,6 +61,7 @@ function(input, output, session) {
         factor_plot <- ggplot(plot_data(), aes(x = Level, y = HASQICepCorr,
                                       group = interaction(Processing, Quiet_Noise),
                                       color = Processing, linetype = Quiet_Noise)) 
+        
       } else if (input$Lin_nonlin == "Both Nonlinear and Linear") {
         factor_plot <- ggplot(plot_data(), aes(x = Level, y = HASQICepCorr,
                                       group = interaction(Processing, Lin_nonlin),
@@ -85,4 +86,34 @@ function(input, output, session) {
       factor_plot
     })
 
+    output$siiPlot <- renderPlotly({
+      
+      if (input$Quiet_Noise == "Quiet and Noise") {
+        sii_plot <- ggplot(plot_data(), aes(x = Level, y = HASQICepCorr,
+                                               group = interaction(Processing, Quiet_Noise),
+                                               color = Processing, linetype = Quiet_Noise)) 
+        
+      } else if (input$Lin_nonlin == "Both Nonlinear and Linear") {
+        sii_plot <- ggplot(plot_data(), aes(x = Level, y = HASQICepCorr,
+                                               group = interaction(Processing, Lin_nonlin),
+                                               color = Processing, linetype = Lin_nonlin))
+      } else {
+        
+        sii_plot <- ggplot(plot_data(), aes(x = Level, y = HASQICepCorr, color = Processing)) 
+      }
+      
+      sii_plot <- sii_plot +
+        geom_point() +
+        geom_line() +
+        scale_color_carto_d(palette = 'Prism') +
+        theme_minimal() +
+        labs(x = "Level (dB)") +
+        labs(y = "HASQI CepCorr") +
+        scale_y_continuous(breaks = c(0, 0.20, 0.40, 0.60, 0.80, 1.00), limits = c(0, 1.00)) +
+        facet_wrap(~ParticipantID) 
+      
+      sii_plot <- ggplotly(sii_plot)
+      
+      sii_plot
+    })
 }

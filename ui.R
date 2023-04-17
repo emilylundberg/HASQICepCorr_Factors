@@ -37,10 +37,10 @@ fluidPage(theme = shinytheme("flatly"),
 
         # Show a plot of the generated distribution
         mainPanel(
-          
-            tabsetPanel(type = "tabs",
-                        tabPanel("HASQI CepCorr", plotlyOutput("factorPlot")),
-                        tabPanel("SII Comparison", plotlyOutput("siiPlot"))
+          tabsetPanel(type = "tabs",
+                      tabPanel("HASQI CepCorr Calculations", plotlyOutput("factorPlot")),
+                      tabPanel("CepCorr vs. SII", plotlyOutput("siiPlot"))
+                      )
         )
     )
 )
